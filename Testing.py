@@ -8,21 +8,21 @@ from tensorflow.keras.models import load_model
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
-# Load the diabetic dataset again (assuming the same CSV file)
+
 df = pd.read_csv('diabetes.csv')
-# Split features and target
-X = df.drop('Outcome', axis=1)  # Assuming the label column is named 'Outcome'
+
+X = df.drop('Outcome', axis=1)  
 y = df['Outcome']
 
-# Split data into 80% training and 20% testing (should be consistent with previous split)
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Standardizing the data (for KNN and ANN)
+
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# Load the previously saved models
+
 rf_model = load('random_forest_model.joblib')
 knn_model = load('knn_model.joblib')
 ann_model = load_model('ann_model.h5')
@@ -51,13 +51,13 @@ def calculate_metrics(y_true, y_pred):
     
     # Calculate metrics
     accuracy = (tp + tn) / (tp + tn + fp + fn)
-    sensitivity = recall_score(y_true, y_pred)  # Sensitivity = recall = TP / (TP + FN)
+    sensitivity = recall_score(y_true, y_pred)  
     specificity = tn / (tn + fp)
-    ppv = precision_score(y_true, y_pred)  # PPV = precision = TP / (TP + FP)
+    ppv = precision_score(y_true, y_pred)  
     npv = tn / (tn + fn)
-    fpr = fp / (fp + tn)  # FPR = 1 - specificity
-    fnr = fn / (fn + tp)  # FNR = 1 - sensitivity
-    fdr = fp / (fp + tp)  # FDR = 1 - PPV
+    fpr = fp / (fp + tn)  
+    fnr = fn / (fn + tp) 
+    fdr = fp / (fp + tp) 
 
     return accuracy, sensitivity, specificity, ppv, npv, fpr, fnr, fdr
 
@@ -105,7 +105,7 @@ plot_roc_curve(y_true, y_pred_ann, 'ANN')
 plot_roc_curve(y_true, y_pred_rf, 'RF')
 plot_roc_curve(y_true, y_pred_knn, 'KNN')
 
-plt.plot([0, 1], [0, 1], 'k--')  # Diagonal line
+plt.plot([0, 1], [0, 1], 'k--') 
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.05])
 plt.xlabel('False Positive Rate')
