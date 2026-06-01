@@ -9,18 +9,17 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from joblib import dump
 
-# Load the diabetic dataset (assuming it is a CSV file)
-# Modify 'diabetes.csv' to your dataset path
+
 df = pd.read_csv('diabetes.csv')
 
 # Split features and target
-X = df.drop('Outcome', axis=1)  # Assuming the label column is named 'Outcome'
+X = df.drop('Outcome', axis=1) 
 y = df['Outcome']
 
 # Split data into 80% training and 20% testing
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Standardizing the data (for KNN and ANN)
+
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
@@ -30,7 +29,7 @@ rf_model = RandomForestClassifier(random_state=42)
 rf_model.fit(X_train, y_train)
 
 # KNN Model
-knn_model = KNeighborsClassifier(n_neighbors=5)  # Default n_neighbors=5
+knn_model = KNeighborsClassifier(n_neighbors=5) 
 knn_model.fit(X_train_scaled, y_train)
 
 # ANN (Levenberg-Marquardt Algorithm using Keras/TensorFlow)
